@@ -18,7 +18,8 @@ import * as fs from "fs";
         bundle_file_path,
         Buffer.from(
             [
-                "var __global=global;",
+                "const lib={};",
+                "const nodeJsGlobal = typeof global !== 'undefined' ? global : undefined;",
                 fs.readFileSync(bundle_file_path).toString("utf8")
             ].join("\n"),
             "utf8"

@@ -16,7 +16,7 @@ eval(
     ).toString("utf8")
 );
 
-const bundleExport: import("../lib/bundleEntryPoint").BundleExport = global as any;
+declare const lib: import("../lib/bundleEntryPoint").Lib;
 
 {
 
@@ -28,7 +28,7 @@ const bundleExport: import("../lib/bundleEntryPoint").BundleExport = global as a
 
     const contactParam = UserSimInfos.buildContactParam(userSimInfos);
 
-    const recoveredUserSimInfos = bundleExport.parseUserSimInfos(
+    const recoveredUserSimInfos = lib.parseUserSimInfos(
         `foo=bar;${contactParam};bar=baz`
     );
 
@@ -47,8 +47,6 @@ const bundleExport: import("../lib/bundleEntryPoint").BundleExport = global as a
 
     const towardSimEncryptKeyStr = cryptoLib.RsaKey.stringify(publicKey);
 
-    console.log( towardSimEncryptKeyStr );
-
     const bundledData: gwTypes.BundledData.ClientToServer.Message = {
         "type": "MESSAGE",
         "appendPromotionalMessage": true,
@@ -56,7 +54,7 @@ const bundleExport: import("../lib/bundleEntryPoint").BundleExport = global as a
         "text": "hello world"
     };
 
-    const headers = bundleExport.smuggleBundledDataInHeaders<typeof bundledData>(
+    const headers = lib.smuggleBundledDataInHeaders<typeof bundledData>(
         bundledData,
         towardSimEncryptKeyStr
     );
@@ -90,7 +88,7 @@ const bundleExport: import("../lib/bundleEntryPoint").BundleExport = global as a
     );
 
     const recoveredBundledData: typeof bundledData =
-        bundleExport.extractBundledDataFromHeaders(
+        lib.extractBundledDataFromHeaders(
             record,
             towardUserDecryptKeyStr
         );

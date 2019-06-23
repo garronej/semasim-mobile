@@ -110,7 +110,7 @@
         "signature": "06e94dce48ef1ff85d595276e98ccdd161fa8134d50bde77929f1f84eec99f27"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/bin/builder.ts": {
-        "version": "1dddea5b99f42fa1f7c28aa057ea1de43113dac619b1bd036fbf8d3841c41fa7",
+        "version": "153d665addadf314c0db3486c1bb56c4311fb9307310f4fe0ad4f3e11d6bb188",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/usersiminfos.ts": {
@@ -130,8 +130,8 @@
         "signature": "cd6dfcaa182e9b8d79a60c82ab38bf3b2a0bbf776ee66f9b6ac01ec662e81f30"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/bundleentrypoint.ts": {
-        "version": "34940c6ef31bc6efccc81368b314a10f4d39faf2ed55ee5d5c8764f630133bf9",
-        "signature": "1af573914c7a85923f132bebdd3d8188095330cd1ff6a0cf5898b9bdeb9d7f51"
+        "version": "f7774687fd70bb2561ee3fbea6b65c1e7b2fa38ffadcf549ff5e693ea2558e13",
+        "signature": "5e13fbf9702ab033d247d2371b83a285a9b4e6159d2c250f2ba8870cf9454580"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/usersiminfos/backend.ts": {
         "version": "05c4673d308f2a53f4c8e4d260a491ad9d7637731f0299082d984fffaac6d7f8",
@@ -142,7 +142,7 @@
         "signature": "88b0b9965b5d9351d601361f5198afcb88d1e74bd329c038582a44c7464ab978"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/test/main.ts": {
-        "version": "64a8864e2ee99178a73332192090bc6f17b6673741f349b83e2fcd5fabd0a22a",
+        "version": "26212f037e44981ac483195c75e71993d19049d1887f272d200c856ba69d480d",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/@types/node/inspector.d.ts": {
