@@ -1,0 +1,17 @@
+{
+  "name": "semasim-mobile",
+  "description": "...",
+  "scripts": {
+    "tsc": "node ./node_modules/typescript/bin/tsc -p ./tsconfig.json",
+    "build": "npm run tsc && node ./dist/bin/builder.js",
+    "test": "node ./dist/test/main.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^8.9.1",
+    "crypto-lib": "github:garronej/crypto-lib",
+    "frontend-build-tools": "github:garronej/frontend-build-tools",
+    "transfer-tools": "github:garronej/transfer-tools",
+    "typescript": "^3.5.2"
+  }
+}
