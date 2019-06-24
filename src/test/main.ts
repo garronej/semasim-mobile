@@ -10,13 +10,29 @@ import {
     smuggleBundledDataInHeaders
 } from "../gateway";
 
+//NOTE: Simulate LiquidCore
+global.setTimeout= undefined as any;
+
+const real_require= require;
+
+//NOTE: Make sure we do not need node crypto
+require= function(module_name: string){
+
+    if( module_name === "crypto" ){
+        throw new Error("crypto not available");
+    }
+
+    return real_require(module_name);
+
+} as any;
+
 eval(
     fs.readFileSync(
-        path.join(__dirname, "..", "..", "res", "raw", "semasim_mobile.js")
+        path.join(__dirname, "..", "..", "res", "raw", "semasim-mobile.js")
     ).toString("utf8")
 );
 
-declare const lib: import("../lib/bundleEntryPoint").Lib;
+const lib: typeof import("../lib/semasim-mobile")= require("semasim-mobile");
 
 {
 
@@ -41,9 +57,11 @@ declare const lib: import("../lib/bundleEntryPoint").Lib;
 
 }
 
+
 {
 
     const { publicKey, privateKey: towardSimDecryptKey } = cryptoLib.rsa.syncGenerateKeys(null, 80);
+
 
     const towardSimEncryptKeyStr = cryptoLib.RsaKey.stringify(publicKey);
 
