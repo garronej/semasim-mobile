@@ -1,4 +1,5 @@
+export * from "./bundledData";
+export * from "./buildUrl";
 import { UserSimInfos } from "./UserSimInfos/mobile";
-import { smuggleBundledDataInHeaders, extractBundledDataFromHeaders } from "./bundledData";
 declare const parseUserSimInfos: typeof UserSimInfos.parse;
-export { parseUserSimInfos, smuggleBundledDataInHeaders, extractBundledDataFromHeaders };
+export { parseUserSimInfos };

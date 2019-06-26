@@ -1,7 +1,7 @@
 
 export type UserSimInfos = {
     iso: string | undefined;
-    number: string | undefined; /** is phoneNumber */
+    number: string | undefined;
     towardSimEncryptKeyStr: string;
 };
 

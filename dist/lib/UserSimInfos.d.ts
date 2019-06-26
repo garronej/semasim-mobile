@@ -1,6 +1,6 @@
 export declare type UserSimInfos = {
     iso: string | undefined;
-    number: string | undefined; /** is phoneNumber */
+    number: string | undefined;
     towardSimEncryptKeyStr: string;
 };
 export declare namespace UserSimInfos {

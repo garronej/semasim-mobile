@@ -1,14 +1,8 @@
 
+export * from "./bundledData";
+
+export * from "./buildUrl";
+
 import { UserSimInfos } from "./UserSimInfos/mobile";
-import { 
-    smuggleBundledDataInHeaders, 
-    extractBundledDataFromHeaders 
-} from "./bundledData";
-
 const parseUserSimInfos= UserSimInfos.parse;
-
-export { 
-    parseUserSimInfos,
-    smuggleBundledDataInHeaders,
-    extractBundledDataFromHeaders
-}
+export { parseUserSimInfos }

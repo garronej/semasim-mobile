@@ -8,7 +8,7 @@ import * as path from "path";
 
     await buildTools.browserify(
         [ "--require", `${path.join(module_dir_path, "dist", "lib", "semasim-mobile.js")}:semasim-mobile`  ],
-        [ "--outfile", path.join(module_dir_path, "res", "raw", "semasim-mobile.js") ]
+        [ "--outfile", path.join(module_dir_path, "assets", "semasim-mobile.js") ]
     );
 
 })();

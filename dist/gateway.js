@@ -7,3 +7,5 @@ exports.smuggleBundledDataInHeaders = bundledData_1.smuggleBundledDataInHeaders;
 exports.extractBundledDataFromHeaders = bundledData_1.extractBundledDataFromHeaders;
 var urlSafeBase64encoderDecoder_1 = require("../../gateway/dist/lib/misc/urlSafeBase64encoderDecoder");
 exports.urlSafeB64 = urlSafeBase64encoderDecoder_1.urlSafeB64;
+var web_api_declaration_1 = require("../../gateway/dist/web_api_declaration");
+exports.webApiPath = web_api_declaration_1.apiPath;

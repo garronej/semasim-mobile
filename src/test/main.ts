@@ -28,7 +28,7 @@ require= function(module_name: string){
 
 eval(
     fs.readFileSync(
-        path.join(__dirname, "..", "..", "res", "raw", "semasim-mobile.js")
+        path.join(__dirname, "..", "..", "assets", "semasim-mobile.js")
     ).toString("utf8")
 );
 
@@ -68,7 +68,7 @@ const lib: typeof import("../lib/semasim-mobile")= require("semasim-mobile");
     const bundledData: gwTypes.BundledData.ClientToServer.Message = {
         "type": "MESSAGE",
         "appendPromotionalMessage": true,
-        "exactSendDate": new Date(),
+        "exactSendDateTime": Date.now(),
         "text": "hello world"
     };
 
@@ -97,7 +97,7 @@ const lib: typeof import("../lib/semasim-mobile")= require("semasim-mobile");
     const bundledData: gwTypes.BundledData.ServerToClient.Message = {
         "type": "MESSAGE",
         "text": "hello world",
-        "pduDate": new Date()
+        "pduDateTime": Date.now()
     };
 
     const record = smuggleBundledDataInHeaders(
@@ -107,15 +107,48 @@ const lib: typeof import("../lib/semasim-mobile")= require("semasim-mobile");
 
     const recoveredBundledData: typeof bundledData =
         lib.extractBundledDataFromHeaders(
-            record,
+            (headerName: string)=> record[headerName] || null,
             towardUserDecryptKeyStr
         );
-
-    recoveredBundledData.pduDate = new Date(recoveredBundledData.pduDate);
 
     ttTesting.assertSame(recoveredBundledData, bundledData);
 
     console.log("PASS bundledData gateway -> mobile");
+
+}
+
+console.log("PASS");
+
+{
+
+    console.log("\nVisual URLs checks:");
+
+    const baseDomain = "dev.semasim.com";
+
+    const email = "joseph.garrone.gj@gmail.com";
+
+    console.log([
+        lib.buildLoginPageUrl(baseDomain, "joseph.garrone.gj@gmail.com"),
+        lib.buildLoginPageUrl(baseDomain),
+        lib.buildLinphonercUrl(baseDomain, ({ email, "secret": "ffffffffffffffff" })),
+        lib.buildLinphonercUrl(
+            baseDomain,
+            {
+                email,
+                "secret": "ffffffffffffffff",
+                "uuid": "4cf08b16-03da-41d9-a64a-26daa73c11e7",
+                "platform": "android",
+                "push_token": [
+                    "f_l7SPs6o7A:APA91bF_c0VGlz3pQPwrgpFe9U0FRzc",
+                    "VXlDmG97jt3DTzOlsjbUzsent-yeEz_QpQNhdO3Mbr-",
+                    "4-XxcSmyKj_Hr-XY_-LefF3RhHsSekVsSeYN95PAtwR",
+                    "Cpz-i1ytnc5DyMY8je4n69G"
+                ].join("")
+            }
+        ),
+        lib.buildManagerPageUrl(baseDomain),
+        lib.buildWebviewphoneUrl(baseDomain)
+    ].join("\n"));
 
 }
 

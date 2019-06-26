@@ -46,7 +46,7 @@ export namespace smuggleBundledDataInHeaders {
 
 
 export function extractBundledDataFromHeaders<T extends gwTypes.BundledData.ServerToClient>(
-    headers: Record<string,string>,
+    getHeaderValue: (headerName: string) => string | null,
     towardUserDecryptKeyStr: string
 ): T {
 
@@ -67,7 +67,10 @@ export function extractBundledDataFromHeaders<T extends gwTypes.BundledData.Serv
     }
 
     return gateway.extractBundledDataFromHeaders<T>(
-        headers,
+        new Proxy(
+            {},
+            { "get": (_obj, prop) => getHeaderValue(String(prop)) || undefined }
+        ),
         decryptor
     );
 

@@ -5,7 +5,7 @@ export declare function smuggleBundledDataInHeaders<T extends gwTypes.BundledDat
 export declare namespace smuggleBundledDataInHeaders {
     const encryptorMap: Map<string, cryptoLib.Sync<cryptoLib.Encryptor>>;
 }
-export declare function extractBundledDataFromHeaders<T extends gwTypes.BundledData.ServerToClient>(headers: Record<string, string>, towardUserDecryptKeyStr: string): T;
+export declare function extractBundledDataFromHeaders<T extends gwTypes.BundledData.ServerToClient>(getHeaderValue: (headerName: string) => string | null, towardUserDecryptKeyStr: string): T;
 export declare namespace extractBundledDataFromHeaders {
     const decryptorMap: Map<string, cryptoLib.Sync<cryptoLib.Decryptor>>;
 }
