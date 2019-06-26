@@ -142,8 +142,8 @@
         "signature": "d6c4b8a68733abc85a9fe35c763a9b87e7936933f4baf89d12a9da5c07cda67b"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/buildurl.ts": {
-        "version": "b0c08c7618461d7ae01213d68f0043bea376dc1859858e6116e603a05f4c444a",
-        "signature": "c21b84db6586f10ba07de5cf29362370fc31d77495c364da979eeb790e84b90f"
+        "version": "e6cc4f4287f56addb3d14fe282730778ef43ae3724c2597126a41cf2e6e28060",
+        "signature": "fe00bba3027cb3ba90042128497e403fad4af19367fe00dc1d8f255d12e761e0"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/crypto-lib/dist/async/index.d.ts": {
         "version": "1d32f070a78dbed398e7b99639debbb4d4d0302953ef23cdb181752c9eb710a4",
@@ -170,7 +170,7 @@
         "signature": "88b0b9965b5d9351d601361f5198afcb88d1e74bd329c038582a44c7464ab978"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/test/main.ts": {
-        "version": "4f64983b4f2f682ff37ae0d4a3927096005d70acdb3ccd24521694517f557a2a",
+        "version": "2243fd5042bbad0f3cb545e56aaef16faef1b845548494a0caf9a08ff46e6d52",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/@types/node/inspector.d.ts": {

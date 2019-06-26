@@ -147,7 +147,8 @@ console.log("PASS");
             }
         ),
         lib.buildManagerPageUrl(baseDomain),
-        lib.buildWebviewphoneUrl(baseDomain)
+        lib.buildWebviewphoneUrl(baseDomain),
+        lib.buildSubscriptionPageUrl(baseDomain)
     ].join("\n"));
 
 }

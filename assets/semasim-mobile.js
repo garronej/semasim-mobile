@@ -2391,6 +2391,10 @@ function buildWebviewphoneUrl(baseDomain) {
     return buildUrlPath(baseDomain, "/" + frontend_1.availablePages.PageName.webviewphone);
 }
 exports.buildWebviewphoneUrl = buildWebviewphoneUrl;
+function buildSubscriptionPageUrl(baseDomain) {
+    return buildUrlPath(baseDomain, "/" + frontend_1.availablePages.PageName.subscription);
+}
+exports.buildSubscriptionPageUrl = buildSubscriptionPageUrl;
 
 },{"../frontend":31,"../gateway":32,"../web_api_declaration":37}],36:[function(require,module,exports){
 "use strict";

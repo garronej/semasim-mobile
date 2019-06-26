@@ -21,3 +21,7 @@ function buildWebviewphoneUrl(baseDomain) {
     return buildUrlPath(baseDomain, "/" + frontend_1.availablePages.PageName.webviewphone);
 }
 exports.buildWebviewphoneUrl = buildWebviewphoneUrl;
+function buildSubscriptionPageUrl(baseDomain) {
+    return buildUrlPath(baseDomain, "/" + frontend_1.availablePages.PageName.subscription);
+}
+exports.buildSubscriptionPageUrl = buildSubscriptionPageUrl;

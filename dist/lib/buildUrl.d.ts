@@ -4,3 +4,4 @@ export declare function buildLoginPageUrl(baseDomain: BaseDomain, email?: string
 export declare const buildLinphonercUrl: (baseDomain: BaseDomain, params: webApiDeclaration.linphonerc.Params) => string;
 export declare function buildManagerPageUrl(baseDomain: BaseDomain): string;
 export declare function buildWebviewphoneUrl(baseDomain: BaseDomain): string;
+export declare function buildSubscriptionPageUrl(baseDomain: BaseDomain): string;

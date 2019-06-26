@@ -39,3 +39,7 @@ export function buildManagerPageUrl(baseDomain: BaseDomain) {
 export function buildWebviewphoneUrl(baseDomain: BaseDomain){
     return buildUrlPath(baseDomain, `/${availablePages.PageName.webviewphone}`);
 }
+
+export function buildSubscriptionPageUrl(baseDomain: BaseDomain){
+    return buildUrlPath(baseDomain, `/${availablePages.PageName.subscription}`);
+}
