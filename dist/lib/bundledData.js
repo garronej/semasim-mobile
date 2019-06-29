@@ -16,14 +16,16 @@ exports.smuggleBundledDataInHeaders = smuggleBundledDataInHeaders;
 (function (smuggleBundledDataInHeaders) {
     smuggleBundledDataInHeaders.encryptorMap = new Map();
 })(smuggleBundledDataInHeaders = exports.smuggleBundledDataInHeaders || (exports.smuggleBundledDataInHeaders = {}));
-function extractBundledDataFromHeaders(getHeaderValue, towardUserDecryptKeyStr) {
+//NOTE: The headers need to be extracted first in the main thread.
+exports.buildBundledDataSipHeaders = gateway.BundledDataSipHeaders.build;
+function extractBundledDataFromHeaders(bundledDataSipHeaders, towardUserDecryptKeyStr) {
     var decryptorMap = extractBundledDataFromHeaders.decryptorMap;
     var decryptor = decryptorMap.get(towardUserDecryptKeyStr);
     if (decryptor === undefined) {
         decryptor = cryptoLib.rsa.syncDecryptorFactory(cryptoLib.RsaKey.parse(towardUserDecryptKeyStr));
         decryptorMap.set(towardUserDecryptKeyStr, decryptor);
     }
-    return gateway.extractBundledDataFromHeaders(new Proxy({}, { "get": function (_obj, prop) { return getHeaderValue(String(prop)) || undefined; } }), decryptor);
+    return gateway.extractBundledDataFromHeaders(bundledDataSipHeaders, decryptor);
 }
 exports.extractBundledDataFromHeaders = extractBundledDataFromHeaders;
 (function (extractBundledDataFromHeaders) {

@@ -44,9 +44,11 @@ export namespace smuggleBundledDataInHeaders {
 
 }
 
+//NOTE: The headers need to be extracted first in the main thread.
+export const buildBundledDataSipHeaders= gateway.BundledDataSipHeaders.build;
 
 export function extractBundledDataFromHeaders<T extends gwTypes.BundledData.ServerToClient>(
-    getHeaderValue: (headerName: string) => string | null,
+    bundledDataSipHeaders: gateway.BundledDataSipHeaders,
     towardUserDecryptKeyStr: string
 ): T {
 
@@ -67,10 +69,7 @@ export function extractBundledDataFromHeaders<T extends gwTypes.BundledData.Serv
     }
 
     return gateway.extractBundledDataFromHeaders<T>(
-        new Proxy(
-            {},
-            { "get": (_obj, prop) => getHeaderValue(String(prop)) || undefined }
-        ),
+        bundledDataSipHeaders,
         decryptor
     );
 

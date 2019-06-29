@@ -66,6 +66,7 @@ var cryptoLib = require("crypto-lib");
 var urlSafeBase64encoderDecoder_1 = require("./urlSafeBase64encoderDecoder");
 //NOTE: Transpiled to ES3.
 var stringTransform = require("transfer-tools/dist/lib/stringTransform");
+//NOTE: Exported for semasim-mobile
 var getIndexedHeaderName = function (i) { return "Bundled-Data-" + i; };
 function smuggleBundledDataInHeaders(data, encryptor, headers) {
     if (headers === void 0) { headers = {}; }
@@ -82,17 +83,28 @@ function smuggleBundledDataInHeaders(data, encryptor, headers) {
         prValueOrValue.then(function (value) { return followUp(value); }));
 }
 exports.smuggleBundledDataInHeaders = smuggleBundledDataInHeaders;
-function extractBundledDataFromHeaders(headers, decryptor) {
-    var split = [];
-    var i = 0;
-    while (true) {
-        var key = getIndexedHeaderName(i++);
-        var part = headers[key] || headers[key.toLowerCase()];
-        if (!part) {
-            break;
+var BundledDataSipHeaders;
+(function (BundledDataSipHeaders) {
+    function build(getHeaderValue) {
+        var headersValues = [];
+        var i = 0;
+        while (true) {
+            var headerName = getIndexedHeaderName(i++);
+            var headerValue = getHeaderValue(headerName) ||
+                getHeaderValue(headerName.toLocaleLowerCase());
+            if (!headerValue) {
+                break;
+            }
+            headersValues.push(headerValue);
         }
-        split.push(part);
+        return headersValues;
     }
+    BundledDataSipHeaders.build = build;
+})(BundledDataSipHeaders = exports.BundledDataSipHeaders || (exports.BundledDataSipHeaders = {}));
+function extractBundledDataFromHeaders(headers, decryptor) {
+    var split = headers instanceof Array ?
+        headers :
+        BundledDataSipHeaders.build(function (headerName) { return headers[headerName] || null; });
     if (!split.length) {
         throw new Error("No bundled data in header");
     }
@@ -2330,6 +2342,7 @@ exports.types = types;
 var bundledData_1 = require("../../gateway/dist/lib/misc/bundledData");
 exports.smuggleBundledDataInHeaders = bundledData_1.smuggleBundledDataInHeaders;
 exports.extractBundledDataFromHeaders = bundledData_1.extractBundledDataFromHeaders;
+exports.BundledDataSipHeaders = bundledData_1.BundledDataSipHeaders;
 var urlSafeBase64encoderDecoder_1 = require("../../gateway/dist/lib/misc/urlSafeBase64encoderDecoder");
 exports.urlSafeB64 = urlSafeBase64encoderDecoder_1.urlSafeB64;
 var web_api_declaration_1 = require("../../gateway/dist/web_api_declaration");
@@ -2415,14 +2428,16 @@ exports.smuggleBundledDataInHeaders = smuggleBundledDataInHeaders;
 (function (smuggleBundledDataInHeaders) {
     smuggleBundledDataInHeaders.encryptorMap = new Map();
 })(smuggleBundledDataInHeaders = exports.smuggleBundledDataInHeaders || (exports.smuggleBundledDataInHeaders = {}));
-function extractBundledDataFromHeaders(getHeaderValue, towardUserDecryptKeyStr) {
+//NOTE: The headers need to be extracted first in the main thread.
+exports.buildBundledDataSipHeaders = gateway.BundledDataSipHeaders.build;
+function extractBundledDataFromHeaders(bundledDataSipHeaders, towardUserDecryptKeyStr) {
     var decryptorMap = extractBundledDataFromHeaders.decryptorMap;
     var decryptor = decryptorMap.get(towardUserDecryptKeyStr);
     if (decryptor === undefined) {
         decryptor = cryptoLib.rsa.syncDecryptorFactory(cryptoLib.RsaKey.parse(towardUserDecryptKeyStr));
         decryptorMap.set(towardUserDecryptKeyStr, decryptor);
     }
-    return gateway.extractBundledDataFromHeaders(new Proxy({}, { "get": function (_obj, prop) { return getHeaderValue(String(prop)) || undefined; } }), decryptor);
+    return gateway.extractBundledDataFromHeaders(bundledDataSipHeaders, decryptor);
 }
 exports.extractBundledDataFromHeaders = extractBundledDataFromHeaders;
 (function (extractBundledDataFromHeaders) {

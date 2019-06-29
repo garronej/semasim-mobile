@@ -10,15 +10,17 @@ import {
     smuggleBundledDataInHeaders
 } from "../gateway";
 
-//NOTE: Simulate LiquidCore
-global.setTimeout= undefined as any;
+const setTimeoutBack= setTimeout;
 
-const real_require= require;
+//NOTE: Simulate LiquidCore
+global.setTimeout = undefined as any;
+
+const real_require = require;
 
 //NOTE: Make sure we do not need node crypto
-require= function(module_name: string){
+require = function (module_name: string) {
 
-    if( module_name === "crypto" ){
+    if (module_name === "crypto") {
         throw new Error("crypto not available");
     }
 
@@ -32,124 +34,132 @@ eval(
     ).toString("utf8")
 );
 
-const lib: typeof import("../lib/semasim-mobile")= require("semasim-mobile");
+const lib: typeof import("../lib/semasim-mobile") = require("semasim-mobile");
 
-{
+cryptoLib.disableMultithreading();
 
-    const userSimInfos: UserSimInfos = {
-        "iso": "fr",
-        "number": "+33636786385",
-        "towardSimEncryptKeyStr": "xxxxxxxxx"
-    };
+global.setTimeout= setTimeoutBack;
 
-    const contactParam = UserSimInfos.buildContactParam(userSimInfos);
+(async () => {
 
-    const recoveredUserSimInfos = lib.parseUserSimInfos(
-        `foo=bar;${contactParam};bar=baz`
-    );
+    {
 
-    ttTesting.assertSame(
-        recoveredUserSimInfos,
-        userSimInfos
-    );
+        const userSimInfos: UserSimInfos = {
+            "iso": "fr",
+            "number": "+33636786385",
+            "towardSimEncryptKeyStr": "xxxxxxxxx"
+        };
 
-    console.log("PASS UserSimsInfos");
+        const contactParam = UserSimInfos.buildContactParam(userSimInfos);
 
-}
-
-
-{
-
-    const { publicKey, privateKey: towardSimDecryptKey } = cryptoLib.rsa.syncGenerateKeys(null, 80);
-
-
-    const towardSimEncryptKeyStr = cryptoLib.RsaKey.stringify(publicKey);
-
-    const bundledData: gwTypes.BundledData.ClientToServer.Message = {
-        "type": "MESSAGE",
-        "appendPromotionalMessage": true,
-        "exactSendDateTime": Date.now(),
-        "text": "hello world"
-    };
-
-    const headers = lib.smuggleBundledDataInHeaders<typeof bundledData>(
-        bundledData,
-        towardSimEncryptKeyStr
-    );
-
-    const recoveredBundledData = extractBundledDataFromHeaders(
-        headers,
-        cryptoLib.rsa.syncDecryptorFactory(towardSimDecryptKey)
-    );
-
-    ttTesting.assertSame(recoveredBundledData, bundledData);
-
-    console.log("PASS bundledData mobile -> gateway");
-
-}
-
-{
-
-    const { publicKey: towardUserEncryptKey, privateKey } = cryptoLib.rsa.syncGenerateKeys(null, 80);
-
-    const towardUserDecryptKeyStr = cryptoLib.RsaKey.stringify(privateKey);
-
-    const bundledData: gwTypes.BundledData.ServerToClient.Message = {
-        "type": "MESSAGE",
-        "text": "hello world",
-        "pduDateTime": Date.now()
-    };
-
-    const record = smuggleBundledDataInHeaders(
-        bundledData,
-        cryptoLib.rsa.syncEncryptorFactory(towardUserEncryptKey)
-    );
-
-    const recoveredBundledData: typeof bundledData =
-        lib.extractBundledDataFromHeaders(
-            (headerName: string)=> record[headerName] || null,
-            towardUserDecryptKeyStr
+        const recoveredUserSimInfos = lib.parseUserSimInfos(
+            `foo=bar;${contactParam};bar=baz`
         );
 
-    ttTesting.assertSame(recoveredBundledData, bundledData);
+        ttTesting.assertSame(
+            recoveredUserSimInfos,
+            userSimInfos
+        );
 
-    console.log("PASS bundledData gateway -> mobile");
+        console.log("PASS UserSimsInfos");
 
-}
+    }
 
-console.log("PASS");
+    await (async () => {
 
-{
+        const { publicKey, privateKey: towardSimDecryptKey } = await cryptoLib.rsa.generateKeys(null, 80);
 
-    console.log("\nVisual URLs checks:");
+        const towardSimEncryptKeyStr = cryptoLib.RsaKey.stringify(publicKey);
 
-    const baseDomain = "dev.semasim.com";
+        const bundledData: gwTypes.BundledData.ClientToServer.Message = {
+            "type": "MESSAGE",
+            "appendPromotionalMessage": true,
+            "exactSendDateTime": Date.now(),
+            "textB64": Buffer.from("hello world", "utf8").toString("base64")
+        };
 
-    const email = "joseph.garrone.gj@gmail.com";
+        const headers = lib.smuggleBundledDataInHeaders<typeof bundledData>(
+            bundledData,
+            towardSimEncryptKeyStr
+        );
 
-    console.log([
-        lib.buildLoginPageUrl(baseDomain, "joseph.garrone.gj@gmail.com"),
-        lib.buildLoginPageUrl(baseDomain),
-        lib.buildLinphonercUrl(baseDomain, ({ email, "secret": "ffffffffffffffff" })),
-        lib.buildLinphonercUrl(
-            baseDomain,
-            {
-                email,
-                "secret": "ffffffffffffffff",
-                "uuid": "4cf08b16-03da-41d9-a64a-26daa73c11e7",
-                "platform": "android",
-                "push_token": [
-                    "f_l7SPs6o7A:APA91bF_c0VGlz3pQPwrgpFe9U0FRzc",
-                    "VXlDmG97jt3DTzOlsjbUzsent-yeEz_QpQNhdO3Mbr-",
-                    "4-XxcSmyKj_Hr-XY_-LefF3RhHsSekVsSeYN95PAtwR",
-                    "Cpz-i1ytnc5DyMY8je4n69G"
-                ].join("")
-            }
-        ),
-        lib.buildManagerPageUrl(baseDomain),
-        lib.buildWebviewphoneUrl(baseDomain),
-        lib.buildSubscriptionPageUrl(baseDomain)
-    ].join("\n"));
+        const recoveredBundledData = await extractBundledDataFromHeaders(
+            headers,
+            cryptoLib.rsa.decryptorFactory(towardSimDecryptKey)
+        );
 
-}
+        ttTesting.assertSame(recoveredBundledData, bundledData);
 
+        console.log("PASS bundledData mobile -> gateway");
+
+
+    })();
+
+    {
+
+        const { publicKey: towardUserEncryptKey, privateKey } = cryptoLib.rsa.syncGenerateKeys(null, 80);
+
+        const towardUserDecryptKeyStr = cryptoLib.RsaKey.stringify(privateKey);
+
+        const bundledData: gwTypes.BundledData.ServerToClient.Message = {
+            "type": "MESSAGE",
+            "textB64": Buffer.from("hello world", "utf8").toString("base64"),
+            "pduDateTime": Date.now()
+        };
+
+        const record = smuggleBundledDataInHeaders(
+            bundledData,
+            cryptoLib.rsa.syncEncryptorFactory(towardUserEncryptKey)
+        );
+
+        const recoveredBundledData: typeof bundledData =
+            lib.extractBundledDataFromHeaders(
+                lib.buildBundledDataSipHeaders(
+                    (headerName: string) => record[headerName] || null
+                ),
+                towardUserDecryptKeyStr
+            );
+
+        ttTesting.assertSame(recoveredBundledData, bundledData);
+
+        console.log("PASS bundledData gateway -> mobile");
+
+    }
+
+    console.log("PASS");
+
+    {
+
+        console.log("\nVisual URLs checks:");
+
+        const baseDomain = "dev.semasim.com";
+
+        const email = "joseph.garrone.gj@gmail.com";
+
+        console.log([
+            lib.buildLoginPageUrl(baseDomain, "joseph.garrone.gj@gmail.com"),
+            lib.buildLoginPageUrl(baseDomain),
+            lib.buildLinphonercUrl(baseDomain, ({ email, "secret": "ffffffffffffffff" })),
+            lib.buildLinphonercUrl(
+                baseDomain,
+                {
+                    email,
+                    "secret": "ffffffffffffffff",
+                    "uuid": "4cf08b16-03da-41d9-a64a-26daa73c11e7",
+                    "platform": "android",
+                    "push_token": [
+                        "f_l7SPs6o7A:APA91bF_c0VGlz3pQPwrgpFe9U0FRzc",
+                        "VXlDmG97jt3DTzOlsjbUzsent-yeEz_QpQNhdO3Mbr-",
+                        "4-XxcSmyKj_Hr-XY_-LefF3RhHsSekVsSeYN95PAtwR",
+                        "Cpz-i1ytnc5DyMY8je4n69G"
+                    ].join("")
+                }
+            ),
+            lib.buildManagerPageUrl(baseDomain),
+            lib.buildWebviewphoneUrl(baseDomain),
+            lib.buildSubscriptionPageUrl(baseDomain)
+        ].join("\n"));
+
+    }
+
+})();

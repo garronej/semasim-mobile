@@ -5,6 +5,7 @@ exports.types = types;
 var bundledData_1 = require("../../gateway/dist/lib/misc/bundledData");
 exports.smuggleBundledDataInHeaders = bundledData_1.smuggleBundledDataInHeaders;
 exports.extractBundledDataFromHeaders = bundledData_1.extractBundledDataFromHeaders;
+exports.BundledDataSipHeaders = bundledData_1.BundledDataSipHeaders;
 var urlSafeBase64encoderDecoder_1 = require("../../gateway/dist/lib/misc/urlSafeBase64encoderDecoder");
 exports.urlSafeB64 = urlSafeBase64encoderDecoder_1.urlSafeB64;
 var web_api_declaration_1 = require("../../gateway/dist/web_api_declaration");

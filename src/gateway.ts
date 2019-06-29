@@ -3,7 +3,8 @@ import * as types from "../../gateway/dist/lib/types";
 
 export { 
     smuggleBundledDataInHeaders, 
-    extractBundledDataFromHeaders
+    extractBundledDataFromHeaders,
+    BundledDataSipHeaders
 } from "../../gateway/dist/lib/misc/bundledData";
 
 import { urlSafeB64 } from "../../gateway/dist/lib/misc/urlSafeBase64encoderDecoder";
