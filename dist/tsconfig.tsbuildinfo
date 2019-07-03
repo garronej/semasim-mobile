@@ -142,8 +142,8 @@
         "signature": "d6c4b8a68733abc85a9fe35c763a9b87e7936933f4baf89d12a9da5c07cda67b"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/buildurl.ts": {
-        "version": "e6cc4f4287f56addb3d14fe282730778ef43ae3724c2597126a41cf2e6e28060",
-        "signature": "fe00bba3027cb3ba90042128497e403fad4af19367fe00dc1d8f255d12e761e0"
+        "version": "0a20274bfab8627567ccb86cbcbbb7f7cbe3b5332ccba2f66a0c1b9d18a95fdc",
+        "signature": "9fbaecb73dab217e29370ba83b4a743612b63e89fb35840032c3f7f0c9fc2cca"
       },
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/crypto-lib/dist/async/index.d.ts": {
         "version": "1d32f070a78dbed398e7b99639debbb4d4d0302953ef23cdb181752c9eb710a4",
@@ -645,16 +645,16 @@
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/frontend-build-tools/dist/index.d.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/bin/builder.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/usersiminfos.ts",
-      "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/buildurl.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/crypto-lib/dist/async/index.d.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/bundleddata.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/usersiminfos/mobile.ts",
-      "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/semasim-mobile.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/usersiminfos/backend.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/transfer-tools/dist/lib/testing.d.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/@types/node/inspector.d.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/@types/node/base.d.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/node_modules/@types/node/ts3.2/index.d.ts",
+      "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/buildurl.ts",
+      "c:/users/joseph/dropbox/shell/semasim/mobile/src/lib/semasim-mobile.ts",
       "c:/users/joseph/dropbox/shell/semasim/mobile/src/test/main.ts"
     ]
   },
