@@ -1,6 +1,6 @@
 
-import * as cryptoLib from "crypto-lib";
 
+import { getEncryptorStatic, getDecryptorStatic } from "./encryptorDecryptorFactoryStatic";
 import * as gateway from "../gateway";
 import { types as gwTypes } from "../gateway";
 
@@ -11,76 +11,27 @@ export function smuggleBundledDataInHeaders<T extends gwTypes.BundledData.Client
     towardSimEncryptKeyStr: string
 ): Record<string, string> {
 
-    const { encryptorMap } = smuggleBundledDataInHeaders;
-
-    let encryptor = encryptorMap.get(towardSimEncryptKeyStr);
-
-    if (encryptor === undefined) {
-
-        encryptor = cryptoLib.rsa.syncEncryptorFactory(
-            cryptoLib.RsaKey.parse(
-                towardSimEncryptKeyStr
-            )
-        );
-
-        encryptorMap.set(towardSimEncryptKeyStr, encryptor);
-
-    }
-
     return gateway.smuggleBundledDataInHeaders(
         data,
-        encryptor
+        getEncryptorStatic(towardSimEncryptKeyStr)
     );
 
 }
 
-export namespace smuggleBundledDataInHeaders {
-
-    export const encryptorMap = new Map<
-        string,
-        cryptoLib.Sync<cryptoLib.Encryptor>
-    >();
-
-
-}
 
 //NOTE: The headers need to be extracted first in the main thread.
-export const buildBundledDataSipHeaders= gateway.BundledDataSipHeaders.build;
+export const buildBundledDataSipHeaders = gateway.BundledDataSipHeaders.build;
 
 export function extractBundledDataFromHeaders<T extends gwTypes.BundledData.ServerToClient>(
     bundledDataSipHeaders: gateway.BundledDataSipHeaders,
     towardUserDecryptKeyStr: string
 ): T {
 
-    const { decryptorMap } = extractBundledDataFromHeaders;
-
-    let decryptor = decryptorMap.get(towardUserDecryptKeyStr);
-
-    if (decryptor === undefined) {
-
-        decryptor = cryptoLib.rsa.syncDecryptorFactory(
-            cryptoLib.RsaKey.parse(
-                towardUserDecryptKeyStr
-            )
-        );
-
-        decryptorMap.set(towardUserDecryptKeyStr, decryptor);
-
-    }
-
     return gateway.extractBundledDataFromHeaders<T>(
         bundledDataSipHeaders,
-        decryptor
+        getDecryptorStatic(towardUserDecryptKeyStr)
     );
 
 }
 
-export namespace extractBundledDataFromHeaders {
-
-    export const decryptorMap = new Map<
-        string,
-        cryptoLib.Sync<cryptoLib.Decryptor>
-    >();
-
-}
 
